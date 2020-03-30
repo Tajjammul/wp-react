@@ -9,7 +9,7 @@ import Detail from "./src/Screens/Detail";
 import { createStore } from 'redux';
 import { Provider } from 'react-redux'
 import StoreReducer from './src/Hooks/StoreReducer';
-
+import Cart from './src/Components/Cart';
 
 export default function App() {
 
@@ -60,6 +60,7 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
+      <Cart />
     </Provider>
   );
 }

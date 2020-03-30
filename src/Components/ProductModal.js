@@ -34,7 +34,7 @@ const ProductModal = (props) => {
                             <Feather name="shopping-cart" style={modalstyle.cartIcon} />
                         </View>
                 
-                        <Text style={modalstyle.title} >{item.name}-{Object.keys(props.prd).length}</Text>
+                        <Text style={modalstyle.title} >{item.name}</Text>
                         <View>
                 
                             <FloatingLabel
