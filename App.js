@@ -6,9 +6,14 @@ import Home from './src/Screens/Home';
 import List from './src/Screens/List';
 import Search from "./src/Screens/Search";
 import Detail from "./src/Screens/Detail";
+import { createStore } from 'redux';
+import { Provider } from 'react-redux'
+import StoreReducer from './src/Hooks/StoreReducer';
+
 
 export default function App() {
 
+  const store = createStore(StoreReducer);
 
   useEffect(() => {
     get_token()
@@ -31,29 +36,31 @@ export default function App() {
   const Stack = createStackNavigator();
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name='Home'
-          component={Home}
-          options={{ header: () => null }}
-        />
-        <Stack.Screen
-          name='List'
-          component={List}
-        // options={{ header: () => null }}
-        />
-        <Stack.Screen
-          name="Search"
-          component={Search}
-        />
-        <Stack.Screen
-          name="Detail"
-          component={Detail}
-          options={{ header: () => null }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name='Home'
+            component={Home}
+            options={{ header: () => null }}
+          />
+          <Stack.Screen
+            name='List'
+            component={List}
+          // options={{ header: () => null }}
+          />
+          <Stack.Screen
+            name="Search"
+            component={Search}
+          />
+          <Stack.Screen
+            name="Detail"
+            component={Detail}
+            options={{ header: () => null }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

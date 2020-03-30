@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Feather, Ionicons } from '@expo/vector-icons';
 import FloatingLabel from 'react-native-floating-labels';
-
+import { connect } from 'react-redux';
 
 const ProductModal = (props) => {
 
@@ -34,14 +34,13 @@ const ProductModal = (props) => {
                             <Feather name="shopping-cart" style={modalstyle.cartIcon} />
                         </View>
                 
-                        <Text style={modalstyle.title} >{item.name}</Text>
-                
+                        <Text style={modalstyle.title} >{item.name}-{Object.keys(props.prd).length}</Text>
                         <View>
                 
                             <FloatingLabel
                                 labelStyle={{ color: '#fff' }}
                                 inputStyle={modalstyle.fieldsLabel}
-                                value={quantity}
+                                value={quantity.toString()}
                                 keyboardType="number-pad"
                                 onChangeText={(qty)=>{
                                     changeHandler(qty)
@@ -79,7 +78,17 @@ const ProductModal = (props) => {
 
                             </TouchableOpacity>
                 
-                            <TouchableOpacity style={modalstyle.actionbtn} >
+                            <TouchableOpacity 
+                            style={modalstyle.actionbtn}
+                            onPress={()=>{
+                                let payload={
+                                    id:item.id,
+                                    quantity:quantity,
+                                    total:total
+                                }
+                                props.addToCart(payload)
+                            }}
+                            >
                                 <Text style={modalstyle.actionbtntextl} >Cart</Text>
                                 <Feather name="arrow-right" style={modalstyle.actionbtntextr} />
                             </TouchableOpacity>
@@ -209,4 +218,18 @@ const modalstyle = StyleSheet.create({
     }
 })
 
-export default ProductModal
+const mapstateToProp=state=>{
+    return{
+        prd:state.products
+    }
+}
+
+const mapActionToProp=dispatch=>{
+
+    return{
+        addToCart:(payload)=>dispatch({type:'addProduct',payload:payload})
+    }
+}
+
+
+export default connect(mapstateToProp,mapActionToProp)(ProductModal) 
