@@ -14,7 +14,14 @@ import FloatingLabel from 'react-native-floating-labels';
 const ProductModal = (props) => {
 
     const { item, modalvisibility, pressHandler }=props;
-    
+    var [quantity,setquantity]=useState(1)
+    var [total,setTotal]=useState(item.price)
+
+    const changeHandler=(qty)=>{
+        setquantity(qty);
+        setTotal(qty*item.price);
+    }
+
     return (
         <>
             <Modal transparent={true} visible={modalvisibility} >
@@ -34,6 +41,12 @@ const ProductModal = (props) => {
                             <FloatingLabel
                                 labelStyle={{ color: '#fff' }}
                                 inputStyle={modalstyle.fieldsLabel}
+                                value={quantity}
+                                keyboardType="number-pad"
+                                onChangeText={(qty)=>{
+                                    changeHandler(qty)
+                                }}
+                                returnKeyType="done"
                             >
                                 Quantity
                                 
@@ -46,7 +59,7 @@ const ProductModal = (props) => {
                                 </View>
                 
                                 <View style={modalstyle.totalPrice} >
-                                    <Text style={modalstyle.itemPrice} >RS-{item.price}</Text>
+                                    <Text style={modalstyle.itemPrice} >RS-{total}</Text>
                                 </View>
                 
                             </View>
