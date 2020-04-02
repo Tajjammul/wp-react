@@ -10,90 +10,154 @@ import {
 import { Feather, Ionicons } from '@expo/vector-icons';
 import FloatingLabel from 'react-native-floating-labels';
 import { connect } from 'react-redux';
+import { TouchableHighlight } from "react-native-gesture-handler";
 
 const ProductModal = (props) => {
 
-    const { item, modalvisibility, pressHandler }=props;
-    var [quantity,setquantity]=useState(1)
+    const { item, modalvisibility, pressHandler , shoppedProduct }=props;
+    var [quantity,setquantity]=useState('')
     var [total,setTotal]=useState(item.price)
+    const [warning,setWarning]=useState(false)
+    const [disableCart,setDisableCart]=useState(true)
 
-    const changeHandler=(qty)=>{
-        setquantity(qty);
-        setTotal(qty*item.price);
+    const changeHandler= qty =>{
+        if(qty > 0){
+            setWarning(false)
+            setquantity(qty);
+            setTotal(qty*item.price);
+            setDisableCart(false)
+           }else{
+            setWarning(true)
+            setDisableCart(true)
+        }
+        
     }
 
     return (
         <>
-            <Modal transparent={true} visible={modalvisibility} >
+            <Modal 
+            transparent={true} 
+            visible={modalvisibility}
+            >
 
                 <View style={modalstyle.mainModal} >
-                
+                <TouchableOpacity
+                style={modalstyle.crossbtn}
+                onPress={()=>{
+                    pressHandler()
+                }}
+                >
+                    <Feather
+                    name="x"
+                    style={{
+                        color:'#ffffff95'
+                    }}
+                    />
+                </TouchableOpacity>
                     <View style={modalstyle.formContainer} >
                 
                         <View style={modalstyle.mainIcon} >
-                            <Feather name="shopping-cart" style={modalstyle.cartIcon} />
+                            {
+                               !shoppedProduct ?  
+                            
+                            <Feather 
+                            name="shopping-cart" 
+                            style={modalstyle.cartIcon}
+                            />
+                            :
+                            <Feather 
+                            name="check-circle"
+                            style={modalstyle.cartIcon}
+                            />
+                            }
                         </View>
                 
                         <Text style={modalstyle.title} >{item.name}</Text>
-                        <View>
-                
-                            <FloatingLabel
-                                labelStyle={{ color: '#fff' }}
-                                inputStyle={modalstyle.fieldsLabel}
-                                value={quantity.toString()}
-                                keyboardType="number-pad"
-                                onChangeText={(qty)=>{
-                                    changeHandler(qty)
-                                }}
-                                returnKeyType="done"
-                            >
-                                Quantity
+                        
+                        {
+                            !shoppedProduct ? 
+                            <>
+                                    <View>
+                        
+                                    <FloatingLabel
+                                        labelStyle={{ color: '#fff' }}
+                                        inputStyle={modalstyle.fieldsLabel}
+                                        value={quantity.toString()}
+                                        keyboardType="number-pad"
+                                        onChangeText={(qty)=>{
+                                            changeHandler(qty)
+                                        }}
+                                        returnKeyType="done"
+                                    >
+                                        Quantity
+                                        
+                                    </FloatingLabel>
+
+                                    {
+                                        warning ? 
+                                        <Text
+                                        style={{
+                                            color:'#fff',
+                                            paddingTop:5,
+                                            paddingLeft:5
+                                            }}
+                                        >Quantity should be above the 0</Text>
+            
+                                        :null
+                                    }
                                 
-                            </FloatingLabel>
-
-                            <View style={modalstyle.totalContainer} >
-                
-                                <View style={modalstyle.cashIcon} >
-                                    <Ionicons name="md-cash" style={modalstyle.cash} />
+                                    <View style={modalstyle.totalContainer} >
+                        
+                                        <View style={modalstyle.cashIcon} >
+                                            <Ionicons name="md-cash" style={modalstyle.cash} />
+                                        </View>
+                        
+                                        <View style={modalstyle.totalPrice} >
+                                            <Text style={modalstyle.itemPrice} >RS-{total}</Text>
+                                        </View>
+                        
+                                    </View>
+                        
                                 </View>
-                
-                                <View style={modalstyle.totalPrice} >
-                                    <Text style={modalstyle.itemPrice} >RS-{total}</Text>
+                                <View style={modalstyle.actionContainer} >
+                        
+                                    <TouchableOpacity
+                                        style={modalstyle.actionbtn}
+                                        onPress={() => {
+                                            pressHandler()
+                                        }}
+                                    >
+                                        <Feather name="x" style={modalstyle.actionbtntextl} />
+                                        <Text style={modalstyle.actionbtntextr} >Back</Text>
+
+                                    </TouchableOpacity>
+                        
+                                    <TouchableOpacity 
+                                    disabled={disableCart}
+                                    style={{
+                                        ...modalstyle.actionbtn,
+                                        backgroundColor:disableCart?'#ccc':'#fff'
+                                    }}
+                                    onPress={()=>{
+                                        let payload={
+                                            id:item.id,
+                                            quantity:quantity,
+                                            total:total
+                                        }
+                                        props.addToCart(payload)
+                                    }}
+                                    >
+                                        <Text style={modalstyle.actionbtntextl} >Cart</Text>
+                                        <Feather name="arrow-right" style={modalstyle.actionbtntextr} />
+                                    </TouchableOpacity>
                                 </View>
-                
-                            </View>
-                
-                        </View>
-                
-                        <View style={modalstyle.actionContainer} >
-                
-                            <TouchableOpacity
-                                style={modalstyle.actionbtn}
-                                onPress={() => {
-                                    pressHandler()
-                                }}
-                            >
-                                <Feather name="x" style={modalstyle.actionbtntextl} />
-                                <Text style={modalstyle.actionbtntextr} >Cancle</Text>
+                                
+                            </>
 
-                            </TouchableOpacity>
-                
-                            <TouchableOpacity 
-                            style={modalstyle.actionbtn}
-                            onPress={()=>{
-                                let payload={
-                                    id:item.id,
-                                    quantity:quantity,
-                                    total:total
-                                }
-                                props.addToCart(payload)
-                            }}
-                            >
-                                <Text style={modalstyle.actionbtntextl} >Cart</Text>
-                                <Feather name="arrow-right" style={modalstyle.actionbtntextr} />
-                            </TouchableOpacity>
-                        </View>
-
+                            :null
+                            }           
+                       
+                     
                     </View>
                 
                 </View>
@@ -107,6 +171,14 @@ const ProductModal = (props) => {
 
 
 const modalstyle = StyleSheet.create({
+    crossbtn:{
+        position:'absolute',
+        top:10,
+        left:10,
+        backgroundColor:222,
+        padding:10,
+        borderRadius:50
+    },
     mainModal: {
         backgroundColor: '#00000090',
         flex: 1,

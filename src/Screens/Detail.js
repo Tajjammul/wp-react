@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     View,
     TouchableOpacity,
@@ -15,12 +15,21 @@ import HTMLView from 'react-native-htmlview';
 import { Feather } from '@expo/vector-icons';
 import Related from '../Components/Related';
 import ProductModal from '../Components/ProductModal';
+import { connect } from 'react-redux';
 
-const Detail = ({ route, navigation }) => {
-
+const Detail = (props) => {
+    const { route, navigation, products } = props
     const { item } = route.params;
     const [modalVisible, setModalVisible] = useState(false);
+    const [shopped, setShopped] = useState(false)
 
+    useEffect(() => {
+        products.map(i => {
+            if (item.id == i.id) {
+                setShopped(true)
+            }
+        })
+    }, [products])
 
     return (
         <View style={{
@@ -28,7 +37,12 @@ const Detail = ({ route, navigation }) => {
             backgroundColor: '#fff'
         }}>
 
-            <ProductModal item={item} modalvisibility={modalVisible} pressHandler={() => { setModalVisible(!modalVisible) }} />
+            <ProductModal
+                item={item}
+                modalvisibility={modalVisible}
+                pressHandler={() => { setModalVisible(!modalVisible) }}
+                shoppedProduct={shopped}
+            />
 
             <TouchableOpacity
                 onPress={() => {
@@ -115,7 +129,11 @@ const Detail = ({ route, navigation }) => {
                 >
                     <Text
                         style={detailstyle.buybtntext}
-                    >Buy Now</Text>
+                    >
+                        {
+                            shopped ? 'Added to Cart' : 'Buy Now'
+                        }
+                    </Text>
                 </TouchableOpacity>
                 <Related products={item.related_ids} navigation={navigation} />
             </ScrollView>
@@ -146,4 +164,11 @@ const detailstyle = StyleSheet.create({
     }
 })
 
-export default Detail
+
+const mapStatetoProp = state => {
+    return {
+        products: state.products
+    }
+}
+
+export default connect(mapStatetoProp)(Detail)
