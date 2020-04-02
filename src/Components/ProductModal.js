@@ -10,7 +10,6 @@ import {
 import { Feather, Ionicons } from '@expo/vector-icons';
 import FloatingLabel from 'react-native-floating-labels';
 import { connect } from 'react-redux';
-import { TouchableHighlight } from "react-native-gesture-handler";
 
 const ProductModal = (props) => {
 
@@ -142,6 +141,8 @@ const ProductModal = (props) => {
                                         let payload={
                                             id:item.id,
                                             quantity:quantity,
+                                            img:item.images[0].src.replace('localhost','192.168.1.106:8081'),
+                                            price:item.price,
                                             total:total
                                         }
                                         props.addToCart(payload)

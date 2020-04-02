@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -6,14 +6,19 @@ import {
     StyleSheet,
     Animated,
     Dimensions,
-    PanResponder
+    PanResponder,
+    Modal
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { connect } from 'react-redux';
+import MyCart from '../Screens/MyCart';
+
 
 const pan = new Animated.ValueXY();
 
 const Cart = (props) => {
+
+    const [modalVisisble, setModalVisible] = useState(false)
 
     const PanResp = PanResponder.create({
         onMoveShouldSetPanResponder: () => true,
@@ -56,23 +61,35 @@ const Cart = (props) => {
     });
 
     return (
-        <Animated.View style={cartStyle.cartContainer}
-            {...PanResp.panHandlers}
-        >
-            <TouchableOpacity
-                style={cartStyle.cartIconBack}
+        <>
+
+            <Animated.View style={cartStyle.cartContainer}
+                {...PanResp.panHandlers}
             >
-                <View style={cartStyle.cartCount}>
-                    <Text
-                        style={cartStyle.cartText}
-                    >{props.count}</Text>
-                </View>
-                <Feather
-                    name="shopping-cart"
-                    style={cartStyle.cartIcon}
-                />
-            </TouchableOpacity>
-        </Animated.View>
+                <TouchableOpacity
+                    style={cartStyle.cartIconBack}
+                    onPress={() => {
+                        setModalVisible(true)
+                    }}
+                >
+                    <View style={cartStyle.cartCount}>
+                        <Text
+                            style={cartStyle.cartText}
+                        >{props.count}</Text>
+                    </View>
+                    <Feather
+                        name="shopping-cart"
+                        style={cartStyle.cartIcon}
+                    />
+                </TouchableOpacity>
+            </Animated.View>
+            <Modal
+                visible={modalVisisble}
+                animationType="slide"
+            >
+                <MyCart />
+            </Modal>
+        </>
     )
 
 }
