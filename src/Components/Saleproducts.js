@@ -9,6 +9,7 @@ import {
     Dimensions
 } from 'react-native';
 import HTMLView from 'react-native-htmlview';
+import * as Config from '../Hooks/Config';
 
 const Sales = (props) => {
 
@@ -30,7 +31,7 @@ const Sales = (props) => {
                             }}
                             style={style.singleItem}>
                             <Image
-                                source={{ uri: item.images[0].src.replace('localhost', '192.168.1.106:8081') }}
+                                source={{ uri: item.images[0].src.replace('localhost', Config.ip) }}
                                 style={style.productimage}
                             />
                             <View style={{ paddingHorizontal: 10, paddingTop: 10 }}>

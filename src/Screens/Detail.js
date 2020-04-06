@@ -16,6 +16,7 @@ import { Feather } from '@expo/vector-icons';
 import Related from '../Components/Related';
 import ProductModal from '../Components/ProductModal';
 import { connect } from 'react-redux';
+import * as Config from '../Hooks/Config';
 
 const Detail = (props) => {
     const { route, navigation, products } = props
@@ -72,7 +73,7 @@ const Detail = (props) => {
                     renderItem={({ item }) => {
                         return (
                             <Image
-                                source={{ uri: item.src.replace('localhost', '192.168.1.106:8081') }}
+                                source={{ uri: item.src.replace('localhost', Config.ip) }}
                                 style={{
                                     width: Dimensions.get('screen').width,
                                     height: Dimensions.get('screen').height * 0.75

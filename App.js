@@ -10,6 +10,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux'
 import StoreReducer from './src/Hooks/StoreReducer';
 import Cart from './src/Components/Cart';
+import * as Config from './src/Hooks/Config';
 
 export default function App() {
 
@@ -20,7 +21,7 @@ export default function App() {
   }, []);
 
   const get_token = async () => {
-    let response = await fetch('http://192.168.1.106:8081/papashop/wp-json/jwt-auth/v1/token/?username=admin&password=admin', {
+    let response = await fetch(Config.baseurl + 'wp-json/jwt-auth/v1/token/?username=admin&password=admin', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -30,6 +31,8 @@ export default function App() {
     });
     let token_info = await response.json();
     await AsyncStorage.setItem('AUTH_TOKEN', token_info.token);
+
+    console.log(Config.baseurl)
     return token_info;
   }
 

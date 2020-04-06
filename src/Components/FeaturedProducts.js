@@ -6,6 +6,7 @@ import {
     FlatList,
     StyleSheet
 } from 'react-native';
+import * as Config from '../Hooks/Config';
 
 const FeaturedProducts = (props) => {
 
@@ -28,7 +29,7 @@ const FeaturedProducts = (props) => {
                             }}
                         >
                             <Image
-                                source={{ uri: item.images[0].src.replace('localhost', '192.168.1.106:8081') }}
+                                source={{ uri: item.images[0].src.replace('localhost', Config.ip) }}
                                 style={style.productimage}
                             />
                             <Text style={style.title}>{item.name}</Text>

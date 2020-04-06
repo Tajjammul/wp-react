@@ -8,6 +8,8 @@ import {
     Text
 } from 'react-native';
 import HTMLView from 'react-native-htmlview';
+import * as Config from '../Hooks/Config';
+
 const Products = (props) => {
 
     const { products, navigation } = props
@@ -28,7 +30,7 @@ const Products = (props) => {
                                     {
                                         item.images ?
                                             <Image
-                                                source={{ uri: item.images[0].src.replace('localhost', '192.168.1.106:8081') }}
+                                                source={{ uri: item.images[0].src.replace('localhost', Config.ip) }}
                                                 style={productStyle.image}
                                             />
                                             : null

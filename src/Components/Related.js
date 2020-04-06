@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { get_BaseUrl, get_token, get_products } from '../Hooks/GetProducts';
 import { FlatList, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import * as Config from '../Hooks/Config';
 
 const Related = ({ products, navigation }) => {
 
@@ -73,7 +74,7 @@ const Related = ({ products, navigation }) => {
                                     >
                                         <Image
                                             source={{
-                                                uri: item.images[0].src.replace('localhost', '192.168.1.106:8081')
+                                                uri: item.images[0].src.replace('localhost', Config.ip)
                                             }}
                                             style={relStyle.image}
                                         />

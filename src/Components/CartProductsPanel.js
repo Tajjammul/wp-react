@@ -4,27 +4,48 @@ import {
     ScrollView,
     StyleSheet,
     Dimensions,
-    Text
-} from 'react-native';
 
+} from 'react-native';
+import { connect } from 'react-redux';
+import CartItems from './CartItems';
 const CartProductsPanel = (props) => {
 
-    return (
-        // <View
+    const { products } = props
 
-        // >
-        <ScrollView style={panelStyle.cartpanel}>
-            <Text>Got Text</Text>
-        </ScrollView>
-        // </View>
+    return (
+        <View
+            style={{
+                height: Dimensions.get('screen').height * 0.6
+            }}
+        >
+            <ScrollView
+                style={panelStyle.cartpanel}
+            >
+                {
+                    products.map(item => {
+                        return (
+                            <CartItems key={item.id} item={item} />
+                        )
+                    })
+                }
+            </ScrollView>
+        </View>
     )
 }
 
 const panelStyle = StyleSheet.create({
     cartpanel: {
         flex: 1,
-        backgroundColor: '#fff'
+        marginBottom: 0,
+        // backgroundColor: '#fff'
     }
 });
 
-export default CartProductsPanel
+
+const mapStatetoProps = state => {
+    return {
+        products: state.products
+    }
+}
+
+export default connect(mapStatetoProps)(CartProductsPanel)

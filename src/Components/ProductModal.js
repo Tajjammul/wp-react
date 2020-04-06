@@ -10,6 +10,7 @@ import {
 import { Feather, Ionicons } from '@expo/vector-icons';
 import FloatingLabel from 'react-native-floating-labels';
 import { connect } from 'react-redux';
+import * as Config from '../Hooks/Config';
 
 const ProductModal = (props) => {
 
@@ -140,8 +141,9 @@ const ProductModal = (props) => {
                                     onPress={()=>{
                                         let payload={
                                             id:item.id,
+                                            name:item.name,
                                             quantity:quantity,
-                                            img:item.images[0].src.replace('localhost','192.168.1.106:8081'),
+                                            img:item.images[0].src.replace('localhost',Config.ip),
                                             price:item.price,
                                             total:total
                                         }

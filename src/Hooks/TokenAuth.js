@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { AsyncStorage } from 'react-native';
+import * as Config from '../Hooks/Config';
 
 export default () => {
 
     const [token, setToken] = useState('');
-    const BaseUrl = 'http://192.168.1.106:8081/papashop/wp-json';
+    const BaseUrl = Config.baseurl + 'wp-json';
     useEffect(() => {
         get_token().then(res => {
             setToken(res)

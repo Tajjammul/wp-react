@@ -3,7 +3,7 @@ const initState = {
 }
 
 const StoreReducer = (state = initState, action) => {
-    console.log(action)
+    // console.log(action)
     if (action.type == 'addProduct') {
         return {
             ...state,
