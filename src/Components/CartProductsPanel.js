@@ -22,14 +22,8 @@ const CartProductsPanel = (props) => {
 
 const panelStyle = StyleSheet.create({
     cartpanel: {
-        // position: "absolute",
-        // top: Dimensions.get('screen').height * 0.2,
-        // right: 0,
-        // left: 0,
-        // height: Dimensions.get('screen').height * 0.80,
-        // bottom: 0,
-        // borderTopLeftRadius: 30,
-        backgroundColor: '#fff',
+        flex: 1,
+        backgroundColor: '#fff'
     }
 });
 

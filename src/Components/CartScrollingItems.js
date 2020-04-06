@@ -18,6 +18,7 @@ const CartScrollingItems = (props) => {
             pagingEnabled={true}
             scrollEventThrottle={16}
             showsHorizontalScrollIndicator={false}
+
         >
             {
                 products.map(item => {
@@ -41,8 +42,8 @@ const CartScrollStyle = StyleSheet.create({
         marginBottom: 10,
     },
     scrollImages: {
-        height: 50,
-        width: 50,
+        height: 60,
+        width: 60,
         borderRadius: 100,
         borderWidth: 1,
         borderColor: '#f8f8f8'

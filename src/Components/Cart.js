@@ -87,7 +87,7 @@ const Cart = (props) => {
                 visible={modalVisisble}
                 animationType="slide"
             >
-                <MyCart />
+                <MyCart onPress={() => { setModalVisible(false) }} />
             </Modal>
         </>
     )
